@@ -2,11 +2,20 @@
 
 ## 一些前置知识
 
-### vscode 常用快捷键记录
+### vscode 一些知识
+
+#### 变量批量操作
 
 - 选中变量按`F2`批量重命名
 - 选中变量按`ctrl+F2`快速全选
 - 选中变量按`ctrl+d`逐个选上
+
+#### 前端插件辅助
+
+- Auto Import - ES6, TS, JSX, TSX
+  自动为前端代码添加 import
+- Simple React Snippets
+  提供 react 相关代码片段的快速插入
 
 ### 构建工具
 
@@ -234,3 +243,26 @@ console.log(c);
     - `componentDidUpdate()`默认接收两个参数：`prevProps`和`prevState`：
       通常用来监听变化，发送给后端更新数据库
   - `Unmount`周期，执行顺序：`componentWillUnmount()`
+
+## web 分类
+
+- 静态页面：页面数据写死的
+- 动态页面：页面数据动态填充的
+
+  - 后端渲染(SSR: Server Side Rendering)：数据在后端填充，返回完整页面
+    - `client` 发送一个 `url`
+    - `server` 返回当前页面的模板加数据，一个完整页面
+  - 前端渲染(CSR: Client Side Rendering)：数据在前端填充
+    - `client` 发送一个 `url`
+    - `server`返回所有页面的模板
+    - `client`再次点击一个链接后，刷新当前页面，需要数据才向服务器请求数据。
+
+### react 路由
+
+- 专门的路由库：`react-router-dom`
+
+- 组件介绍
+  - `BrowserRouter`：素有需要路由的组件，都包裹在`BrowserRouter`内。
+  - `Link`：跳转到某个链接，`to`属性表示跳转到的链接。
+  - `Routes`：类似于 C++的`switch`，匹配第一个路径。
+  - `Route`：路由，`path`属性表示路径，`element`属性表示路由到的内容。

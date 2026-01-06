@@ -1,17 +1,42 @@
 import React, { Component } from "react";
 
-// 函数式组件
-const Navbar = (myprops) => {
-  return (
-    <nav className="navbar bg-body-tertiary">
-      <div className="container-fluid">
-        <span className="navbar-brand mb-0 h1">
-          Navbar
-          <span>Boxes Count: {myprops.boxesCount}</span>
-        </span>
-      </div>
-    </nav>
-  );
-};
+class Navbar extends Component {
+  state = {};
+  render() {
+    return (
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="/">
+            讲义
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="navbar-nav">
+              <a className="nav-link active" aria-current="page" href="/linux">
+                Linux
+              </a>
+              <a className="nav-link" href="/django">
+                Django
+              </a>
+              <a className="nav-link" href="/web">
+                Web
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+}
 
 export default Navbar;
