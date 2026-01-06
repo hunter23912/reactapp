@@ -1,5 +1,39 @@
 # React 学习过程（通过 vite 构建）
 
+## 一些前置知识
+
+### vscode 常用快捷键记录
+
+- 选中变量按`F2`批量重命名
+- 选中变量按`ctrl+F2`快速全选
+- 选中变量按`ctrl+d`逐个选上
+
+### 构建工具
+
+通常使用 npm 的 vite 脚手架来搭建 react 项目是最快捷的
+
+```shell
+npm create vite@latest app-name -- --template react
+# 通常@latest可省略
+```
+
+建议使用 pnpm 替代 npm，pnpm 通过硬链接管理多个项目的包，更加节省磁盘空间。
+
+```shell
+npm run dev
+pnpm dev
+
+npm install pkg
+pnpm add pkg
+
+npm uninstall pkg
+pnpm rm/remove pkg
+
+npm install
+pnpm install
+
+```
+
 ## ES6 语法补充
 
 ### 使用`bind()`函数绑定`this`取值
@@ -167,4 +201,36 @@ console.log(c);
   ```
 
 - 动态修改变量值
-  由于 react 提高性能和响应速度的特性，无法实时捕捉 js 变量值变化，所以要用 setState()方法，状态变量必须叫 state，其余变量存入 state 中:
+  由于 react 提高性能和响应速度的特性，无法实时捕捉 js 变量值变化，所以要用 setState()方法，状态变量必须叫 state，其余变量存入 state 中
+
+### 组件间的变量传递
+
+- react 通过`this.props`属性可以从上到下传递数据：
+
+  ```jsx
+  <Box key={index} x={box.x} name="wjh" />
+  ```
+
+- 通过`this.props.children`属性传递子节点，获得了 h1 和 p 标签：
+  ```jsx
+  <Box key={index} x={box.x}>
+    <h1>从父节点传入的标题</h1>
+    <p>box.x的平方：{box.x ** 2}</p>
+  </Box>
+  ```
+- `state`是组件内部私有变量，外部无法修改，只能通过 `rpops` 访问。
+
+  > 要将多个组件的公用数据放入最近公共祖先的`this.state`中。
+
+- 无状态函数组件：创建方法 sfc(stateless function component)
+
+  - 只负责展示 UI，不维护自己的 state 状态
+  - 通过 props（还可以解构参数） 接收数据和回调，不做逻辑处理
+  - 结构简单，易于复用和测试
+
+- 组件的生命周期
+  - `Mount`周期，执行顺序：`contructor() -> render() -> componentDidMount()`
+  - `Update`周期，执行顺序：`render() -> componentDidUpdate()`
+    - `componentDidUpdate()`默认接收两个参数：`prevProps`和`prevState`：
+      通常用来监听变化，发送给后端更新数据库
+  - `Unmount`周期，执行顺序：`componentWillUnmount()`
