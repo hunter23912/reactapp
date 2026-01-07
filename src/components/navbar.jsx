@@ -1,14 +1,15 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Navbar extends Component {
   state = {};
   render() {
     return (
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar navbar-expand-sm bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             讲义
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -22,15 +23,18 @@ class Navbar extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <a className="nav-link active" aria-current="page" href="/linux">
+              <Link className="nav-link" to="/">
+                Home
+              </Link>
+              <Link className="nav-link" to="/linux">
                 Linux
-              </a>
-              <a className="nav-link" href="/django">
+              </Link>
+              <Link className="nav-link" to="/django">
                 Django
-              </a>
-              <a className="nav-link" href="/web">
+              </Link>
+              <Link className="nav-link" to="/web">
                 Web
-              </a>
+              </Link>
             </div>
           </div>
         </div>

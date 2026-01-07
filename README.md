@@ -262,7 +262,40 @@ console.log(c);
 - 专门的路由库：`react-router-dom`
 
 - 组件介绍
-  - `BrowserRouter`：素有需要路由的组件，都包裹在`BrowserRouter`内。
+
+  - `BrowserRouter`：所有需要路由的组件，都包裹在`BrowserRouter`内。
   - `Link`：跳转到某个链接，`to`属性表示跳转到的链接。
   - `Routes`：类似于 C++的`switch`，匹配第一个路径。
   - `Route`：路由，`path`属性表示路径，`element`属性表示路由到的内容。
+    > 这四个通常一起使用。核心是在 `Route` 中注册，通过点击 `Link` 中链接跳转到 `Route` 中对应路由注册的组件。
+
+- 通过导出一个封装后的函数，能让类组件访问 hook：
+
+  ```jsx
+  class WebContent extends Component {
+    state = {};
+    render() {
+      console.log(this.props.params);
+
+      return <h1>Web - Content</h1>;
+    }
+  }
+  export default function WebContentWrapper(props) {
+    return <WebContent {...props} params={useSearchParams()} />;
+  }
+  ```
+
+- 如何从路由中获取参数？两种方式
+
+  - `useParams`：与`/web/content/:chapter`路由适配
+    链接写`/web/content/${web.id}`
+  - `useSearchParams`：与`/web/content`路由适配
+    链接写`/web/content?chapter=${web.id}`
+
+- 重定向组件`Navigate`:
+
+  ```jsx
+  <Route path="*" element={<Navigate to="/404" />} />
+  ```
+
+- 嵌套路由：`Outlet`用于在父路由组件中渲染其子路由对应的内容
