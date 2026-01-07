@@ -19,14 +19,14 @@
 
 ### 构建工具
 
-通常使用 npm 的 vite 脚手架来搭建 react 项目是最快捷的
+#### 通常使用 npm 的 vite 脚手架来搭建 react 项目是最快捷的
 
 ```shell
 npm create vite@latest app-name -- --template react
 # 通常@latest可省略
 ```
 
-建议使用 pnpm 替代 npm，pnpm 通过硬链接管理多个项目的包，更加节省磁盘空间。
+#### 建议使用 pnpm 替代 npm，pnpm 通过硬链接管理多个项目的包，更加节省磁盘空间。
 
 ```shell
 npm run dev
@@ -41,6 +41,18 @@ pnpm rm/remove pkg
 npm install
 pnpm install
 
+```
+
+#### 清理未被任何项目引用的包
+
+```shell
+pnpm store prune
+```
+
+#### 删除 pnpm 全局缓存，所有项目下次重新安装依赖
+
+```shell
+pnpm store path
 ```
 
 ## ES6 语法补充
@@ -299,3 +311,102 @@ console.log(c);
   ```
 
 - 嵌套路由：`Outlet`用于在父路由组件中渲染其子路由对应的内容
+
+## redux 状态管理库
+
+- 安装`redux`库相关的 2 个包：`pnpm install react-redux @reduxjs/toolkit`
+  - `react-redux`: `redux`开发工具包
+  - `@reduxjs/tookit`: 与`react`绑定的官方库
+
+### redux 基本概念
+
+- `store`：存储 redux 对象。
+- `state`：维护的数据，一般维护成 DOM 树的结构。
+- `reducer`：对`state`进行更新的函数，每个`state`绑定一个`reducer`，传入两个参数：当前`state`和`action`，返回新`state`。
+- `action`：一个普通对象，存储`reducer`的传入参数，一般描述对`state`的更新类型。
+- `dispatch`：传入一个参数`action`，对整棵`sate`树操作一遍。
+
+### redux APIs
+
+> 关键是：`reducer`接收两个固定类型的参数`state`,`action`，名字无所谓，但是放入`configureStore`后，`state`就存放了全局所有状态变量，一个 DOM 树的结构。
+
+- `configureStore`创建一个全局状态仓库
+
+  ```jsx
+  const store = configureStore({
+    reducer: f3,
+  });
+  ```
+
+- 一个`reducer`的实现方式：
+
+  ```jsx
+  const f2 = (state = "", action) => {
+    switch (action.type) {
+      case "concat":
+        return state + action.character;
+      default:
+        return state;
+    }
+  };
+  ```
+
+- `dispatch`状态变更
+  ```jsx
+  store.dispatch({ type: "add", value: 1 });
+  ```
+- `subscribe`状态变更后执行
+  ```jsx
+  store.subscribe(() => {
+    console.log(store.getState());
+  });
+  ```
+- `combineReducers`统筹多节点
+
+  ```jsx
+  const f4 = combineReducers({
+    f1: f1,
+    f2: f2,
+  });
+  ```
+
+  等价于自定义的：
+
+  ```jsx
+  const f3 = (state = {}, action) => {
+    return {
+      f1: f1(state.f1, action),
+      f2: f2(state.f2, action),
+    };
+  };
+  ```
+
+### react-redux 基本概念
+
+- 主要用来方便跨组件通信
+
+- `Provider`组件，用来包裹整个项目，其中`store`属性用来存储`redux`的`store`对象。
+
+- `connect(mapStateToProps, mapDispatchToProps)`函数，用来将`store`与组件关联起来。
+
+  ```jsx
+  const mapStateToProps = (state, props) => {
+    return {
+      number: state.number,
+    };
+  };
+
+  const mapDispatchToProps = {
+    concat: (c) => {
+      return {
+        type: "concat",
+        character: c,
+      };
+    },
+  };
+
+  export default connect(mapStateToProps, mapDispatchToProps)(Number);
+  ```
+
+- `mapStateToProps`：连接了外部`state`和`props`，每次`store`状态更新后调用一次，用来更新组件中的值。
+- `mapDispatchToProps`：连接了外部`dispatch`和自定义的一个`action`，并放到`props`中，组件创建时调用一次，用来将`store`的`dispatch`函数传入组件。
